@@ -2,14 +2,14 @@ import SideBar from "./SideBar"
 import TopBar from "./TopBar"
 import { Routes, Route } from "react-router-dom"
 import Dashboard from '../../pages/dashboard';
-import UserList from '../../pages/userList';
+import UserList from '../../pages/users';
 import OrderList from '../../pages/orderList';
 import Offers from '../../pages/offers';
 import PaymentHistory from '../../pages/paymentHistory';
 import FeaturedProduct from '../../pages/featuredProduct';
-import ProductList from "../../pages/addProduct/ProductList";
+import ProductList from "../../pages/products/AddEditProducts";
 import ChangePassword from "../../pages/authentication/ChangePassword";
-import Categories from "../../pages/addCategory";
+import Categories from "../../pages/categories";
 import Profile from '../../components/profile';
 import Settings from '../../components/settings';
 
