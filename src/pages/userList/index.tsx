@@ -54,7 +54,17 @@ const Index = () => {
             <thead className="text-xs text-white uppercase bg-gray-600">
                 <tr>
                     <th scope="col" className="px-6 py-3">
-                        Name 
+                        Profile 
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        First Name 
+                        <span className='float-right cursor-pointer'>
+                            <TiArrowSortedUp/>
+                            <TiArrowSortedDown/>
+                        </span>
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Last Name 
                         <span className='float-right cursor-pointer'>
                             <TiArrowSortedUp/>
                             <TiArrowSortedDown/>
@@ -90,13 +100,18 @@ const Index = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr className="bg-white border-b">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div className="flex items-center justify-start">
                             <img className="w-10 h-10 rounded-full" src="/images/avatar.avif" alt="profile"/>
-                            <span className="mx-3">Moinuddin</span>
                         </div>
                     </th>
+                    <td className="px-6 py-4">
+                        Moinuddin
+                    </td>
+                    <td className="px-6 py-4">
+                        Chudiwal
+                    </td>
                     <td className="px-6 py-4">
                         moinuddin@gmail.com
                     </td>
@@ -115,6 +130,11 @@ const Index = () => {
                             <FiEdit onClick={openModal} className="text-blue-500 cursor-pointer mx-1"/>
                             <RiDeleteBin6Line className="text-red-500 cursor-pointer"/>
                         </div>
+                    </td>
+                </tr>
+                <tr className='bg-white border-b text-center font-bold uppercase'>
+                    <td colSpan={8} className='px-6 py-4'>
+                        <span>Data not found</span>
                     </td>
                 </tr>
             </tbody>

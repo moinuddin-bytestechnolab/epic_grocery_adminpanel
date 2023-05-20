@@ -26,33 +26,33 @@ const SideBar = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/user-list" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <NavLink to="/users" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
                     <CgUserList className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
-                    <span className="ml-3">User List</span>
+                    <span className="ml-3">Users</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/order-list" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <NavLink to="/orders" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
                     <TbListCheck className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
-                    <span className="ml-3">Order List</span>
+                    <span className="ml-3">Orders</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/categories" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <HiOutlineViewGridAdd className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
+                    <span className="ml-3">Categories</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/products" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
+                    <BiCartAdd className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
+                    <span className="ml-3">Products</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/offers" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
                     <MdOutlineLocalOffer className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
                     <span className="ml-3">Offers</span>
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/add-category" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <HiOutlineViewGridAdd className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
-                    <span className="ml-3">Add Category</span>
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/add-product" className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <BiCartAdd className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
-                    <span className="ml-3">Add Product</span>
                     </NavLink>
                 </li>
                 <li>

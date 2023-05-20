@@ -5,12 +5,13 @@ import Dashboard from '../../pages/dashboard';
 import UserList from '../../pages/userList';
 import OrderList from '../../pages/orderList';
 import Offers from '../../pages/offers';
-import AddProduct from '../../pages/addProduct';
-import AddCategory from '../../pages/addCategory';
 import PaymentHistory from '../../pages/paymentHistory';
 import FeaturedProduct from '../../pages/featuredProduct';
 import ProductList from "../../pages/addProduct/ProductList";
 import ChangePassword from "../../pages/authentication/ChangePassword";
+import Categories from "../../pages/addCategory";
+import Profile from '../../components/profile';
+import Settings from '../../components/settings';
 
 
 const index = () => {
@@ -26,15 +27,16 @@ const index = () => {
         <div className="m-3">
           <Routes>
               <Route path="/" element={<Dashboard/>}/>
-              <Route path="/user-list" element={<UserList/>}/>
-              <Route path="/order-list" element={<OrderList/>}/>
+              <Route path="/users" element={<UserList/>}/>
+              <Route path="/orders" element={<OrderList/>}/>
               <Route path="/offers" element={<Offers/>}/>
-              <Route path="/add-category" element={<AddCategory/>}/>
-              <Route path="/add-product" element={<AddProduct/>}/>
-              <Route path="/add-product-list" element={<ProductList/>}/>
+              <Route path="/categories" element={<Categories/>}/>
+              <Route path="/products" element={<ProductList/>}/>
               <Route path="/payment-history" element={<PaymentHistory/>}/>
               <Route path="/featured-product" element={<FeaturedProduct/>}/>
+              <Route path="/profile" element={<Profile/>}/>
               <Route path="/change-password" element={<ChangePassword/>}/>
+              <Route path="/settings" element={<Settings/>}/>
           </Routes>
         </div>
       </div>
