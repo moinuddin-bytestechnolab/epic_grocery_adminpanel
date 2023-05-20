@@ -3,8 +3,8 @@ import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { TfiSearch } from 'react-icons/tfi';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
-import { IoMdAdd } from 'react-icons/io';
 import Pagination from '../../components/pagination';
+import AddEditCatgory from './AddEditCategory';
 
 
 const Index = () => {
@@ -48,14 +48,9 @@ const Index = () => {
                 </select>
             </div>
 
-            {/*  */}
-            {/* <button type="button" className="font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
-                Update
-                <svg className="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M279.1 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.4 0 225.4 0c-73.22 0-121.1 44.38-121.1 124.7v70.62H22.89V288h81.39v224h100.2V288z"></path></svg>
-
-                </button> */}
-
-            <button type="button" className="font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
+            {/* Add categories AddEdit Modal */}
+            <AddEditCatgory isOpen={isModalOpen} onClose={closeModal}/>
+            <button type="button" onClick={openModal} className="font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
                 Add Categories
             </button>
 
