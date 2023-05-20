@@ -1,23 +1,143 @@
 {
-  "hash": "2e247b65",
-  "browserHash": "ea7b12f4",
+  "hash": "8de646db",
+  "browserHash": "f7bd5b5d",
   "optimized": {
-    "react": {
-      "src": "../../node_modules/react/index.js",
-      "file": "react.js",
-      "fileHash": "edd89f22",
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "6d3fcd2c",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "1ec11c47",
+      "fileHash": "ca4d2eb2",
       "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "c6580a1d",
+      "needsInterop": false
+    },
+    "react-icons/vsc": {
+      "src": "../../node_modules/react-icons/vsc/index.esm.js",
+      "file": "react-icons_vsc.js",
+      "fileHash": "94a36699",
+      "needsInterop": false
+    },
+    "react-icons/cg": {
+      "src": "../../node_modules/react-icons/cg/index.esm.js",
+      "file": "react-icons_cg.js",
+      "fileHash": "59d64883",
+      "needsInterop": false
+    },
+    "react-icons/tb": {
+      "src": "../../node_modules/react-icons/tb/index.esm.js",
+      "file": "react-icons_tb.js",
+      "fileHash": "7b4ff2ce",
+      "needsInterop": false
+    },
+    "react-icons/md": {
+      "src": "../../node_modules/react-icons/md/index.esm.js",
+      "file": "react-icons_md.js",
+      "fileHash": "1891b653",
+      "needsInterop": false
+    },
+    "react-icons/bi": {
+      "src": "../../node_modules/react-icons/bi/index.esm.js",
+      "file": "react-icons_bi.js",
+      "fileHash": "5301b00f",
+      "needsInterop": false
+    },
+    "react-icons/hi": {
+      "src": "../../node_modules/react-icons/hi/index.esm.js",
+      "file": "react-icons_hi.js",
+      "fileHash": "9fa93eea",
+      "needsInterop": false
+    },
+    "react-icons/ri": {
+      "src": "../../node_modules/react-icons/ri/index.esm.js",
+      "file": "react-icons_ri.js",
+      "fileHash": "8db64b0f",
+      "needsInterop": false
+    },
+    "react-countup": {
+      "src": "../../node_modules/react-countup/build/index.js",
+      "file": "react-countup.js",
+      "fileHash": "cd9b05be",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "c1858b82",
+      "needsInterop": true
+    },
+    "react-icons/tfi": {
+      "src": "../../node_modules/react-icons/tfi/index.esm.js",
+      "file": "react-icons_tfi.js",
+      "fileHash": "58ac26da",
+      "needsInterop": false
+    },
+    "react-icons/io5": {
+      "src": "../../node_modules/react-icons/io5/index.esm.js",
+      "file": "react-icons_io5.js",
+      "fileHash": "d393726e",
+      "needsInterop": false
+    },
+    "react-icons/sl": {
+      "src": "../../node_modules/react-icons/sl/index.esm.js",
+      "file": "react-icons_sl.js",
+      "fileHash": "787f12c1",
+      "needsInterop": false
+    },
+    "formik": {
+      "src": "../../node_modules/formik/dist/formik.esm.js",
+      "file": "formik.js",
+      "fileHash": "29f03351",
+      "needsInterop": false
+    },
+    "react-icons/fi": {
+      "src": "../../node_modules/react-icons/fi/index.esm.js",
+      "file": "react-icons_fi.js",
+      "fileHash": "44af9a5c",
+      "needsInterop": false
+    },
+    "react-icons/ti": {
+      "src": "../../node_modules/react-icons/ti/index.esm.js",
+      "file": "react-icons_ti.js",
+      "fileHash": "c19bd79c",
+      "needsInterop": false
+    },
+    "recharts": {
+      "src": "../../node_modules/recharts/es6/index.js",
+      "file": "recharts.js",
+      "fileHash": "7ec8283d",
+      "needsInterop": false
+    },
+    "yup": {
+      "src": "../../node_modules/yup/index.esm.js",
+      "file": "yup.js",
+      "fileHash": "ac7df5f6",
+      "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-V42YN7MM": {
-      "file": "chunk-V42YN7MM.js"
+    "chunk-VBBIO46E": {
+      "file": "chunk-VBBIO46E.js"
+    },
+    "chunk-5GPFRJ2A": {
+      "file": "chunk-5GPFRJ2A.js"
+    },
+    "chunk-V6PAJ5LK": {
+      "file": "chunk-V6PAJ5LK.js"
+    },
+    "chunk-EDZTS3LP": {
+      "file": "chunk-EDZTS3LP.js"
+    },
+    "chunk-TFWDKVI3": {
+      "file": "chunk-TFWDKVI3.js"
     }
   }
 }

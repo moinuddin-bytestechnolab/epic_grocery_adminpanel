@@ -7,7 +7,7 @@ import OrderList from '../../pages/orderList';
 import Offers from '../../pages/offers';
 import PaymentHistory from '../../pages/paymentHistory';
 import FeaturedProduct from '../../pages/featuredProduct';
-import ProductList from "../../pages/products/AddEditProducts";
+import Products from "../../pages/products";
 import ChangePassword from "../../pages/authentication/ChangePassword";
 import Categories from "../../pages/categories";
 import Profile from '../../components/profile';
@@ -31,7 +31,7 @@ const index = () => {
               <Route path="/orders" element={<OrderList/>}/>
               <Route path="/offers" element={<Offers/>}/>
               <Route path="/categories" element={<Categories/>}/>
-              <Route path="/products" element={<ProductList/>}/>
+              <Route path="/products" element={<Products/>}/>
               <Route path="/payment-history" element={<PaymentHistory/>}/>
               <Route path="/featured-product" element={<FeaturedProduct/>}/>
               <Route path="/profile" element={<Profile/>}/>
