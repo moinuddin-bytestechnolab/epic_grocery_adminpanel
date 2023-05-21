@@ -14,7 +14,7 @@ import Profile from '../../components/profile';
 import Settings from '../../components/settings';
 
 
-const index = () => {
+const Index = () => {
   return (
     <>
     <div className="flex h-screen overflow-hidden bg-gray-100">
@@ -45,4 +45,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Index

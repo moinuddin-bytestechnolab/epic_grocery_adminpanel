@@ -24,14 +24,14 @@ const ForgotPassword = () => {
             <div className="relative bg-white rounded-lg shadow">
                 <div className="px-6 py-6 lg:px-8">
                     <h3 className="mb-4 text-xl font-bold text-gray-900">Forgot your password?</h3>
-                    <p className='mb-4 text-base font-normal text-gray-500'>Don't fret! Just type in your email and we will send you a code to reset your password!</p>
+                    <p className='mb-4 text-base font-normal text-gray-500'>Don't fret! Just type in your email and we will send you an email to reset your password!</p>
                     <form className="space-y-6" onSubmit={formik.handleSubmit}>
                         <div>
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                            <input type="email" name="email" id="email" value={formik.values.email} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="name@company.com"/>
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                            <input type="email" name="email" id="email" value={formik.values.email} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Eg: johndoe@gmail.com"/>
                             {formik.errors.email && formik.touched.email ? (<span className='text-red-500'>{formik.errors.email}</span>) : null}
                         </div>
-                        <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Reset password</button>
+                        <button type="submit" className="w-full text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Reset Password</button>
                     </form>
                 </div>
             </div>
