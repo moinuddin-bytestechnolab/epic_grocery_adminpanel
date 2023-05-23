@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { TfiSearch } from 'react-icons/tfi';
 import { IoNotifications } from 'react-icons/io5';
 import { SlLogout } from 'react-icons/sl';
-import { IoSettingsOutline } from 'react-icons/io5';
+import { RiSettings2Line } from 'react-icons/ri';
 import { HiOutlineLockClosed } from 'react-icons/hi';
-import { CgProfile } from 'react-icons/cg';
+import { BiUser } from 'react-icons/bi';
 
 const TopBar = () => {
   // This state use for hide & show user profile tool tip
@@ -49,22 +49,22 @@ const TopBar = () => {
               <hr />
                 <ul className='mt-3'>
                   <li>
-                    <Link to="profile" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
-                    <CgProfile className="w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
+                    <NavLink to="profile" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
+                    <BiUser className="w-4 h-4 tbit-gray-500 transition duration-75 group-hover:text-gray-900 sidebar-icon"/>
                     <span className="ml-3">My Profile</span>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
-                    <Link to="/change-password" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
-                    <HiOutlineLockClosed className="w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
+                    <NavLink to="/change-password" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
+                    <HiOutlineLockClosed className="w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 sidebar-icon"/>
                     <span className="ml-3">Change-Password</span>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
-                    <Link to="settings" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
-                    <IoSettingsOutline className="w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900"/>
+                    <NavLink to="settings" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
+                    <RiSettings2Line className="w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 sidebar-icon"/>
                     <span className="ml-3">Settings</span>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
                     <a href="#" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>

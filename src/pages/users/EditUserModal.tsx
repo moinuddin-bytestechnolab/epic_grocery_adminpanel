@@ -1,4 +1,24 @@
+import { useFormik } from "formik";
+import { UserSchema } from "../../schemas/UserSchema";
+
+
 const EditUserModal = ({ isOpen, onClose } : any) => {
+    // This is a formik function use for handeling for & validation
+    const formik = useFormik({
+        initialValues : {
+            profile_img : null,
+            first_name : "",
+            last_name : "",
+            email: "",
+            mobile : "",
+            status : "1"
+        },
+        validationSchema : UserSchema,
+        onSubmit : (values) => {
+            console.log(values);
+        }
+    })
+
     // This condition is use for handeling open close modal
     if (!isOpen) {
         return null;
@@ -13,46 +33,57 @@ const EditUserModal = ({ isOpen, onClose } : any) => {
                     <span className="sr-only">Close modal</span>
                 </button>
                 <div className="px-6 py-6 lg:px-8">
-                    <form>
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="flex justify-center mb-6">
-                            <label htmlFor="profile-image">
-                                <img
-                                src="images/avatar.avif"
-                                alt="User Profile"
-                                className="w-24 h-24 rounded-full cursor-pointer"
-                                />
+                            <label htmlFor="profile_img">
+                                {
+                                formik.values.profile_img ?
+                                (<img src={URL.createObjectURL(formik.values.profile_img)} alt="User profile" className='w-24 h-24 rounded-full cursor-pointer'/>)
+                                :
+                                (<img src="images/avatar.avif" alt="User profile" className='w-24 h-24 rounded-full cursor-pointer'/>)
+                                }
                             </label>
                             <input
-                                id="profile-image"
+                                id="profile_img"
+                                name="profile_img"
                                 type="file"
                                 accept="image/*"
                                 className="inset-0 opacity-0 w-0 h-0 cursor-pointer border"
+                                onChange={(event : any) => { formik.setFieldValue('profile_img', event.currentTarget.files[0]); }}
                             />
+                        </div>
+                        <div className="mb-5 text-center">
+                            {formik.errors.profile_img && formik.touched.profile_img ? (<span className='text-red-500'>{formik.errors.profile_img}</span>) : null}
                         </div>
                         <div className="grid gap-6 mb-6 md:grid-cols-2">
                             <div>
-                                <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">First name</label>
-                                <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="John"/>
+                                <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">First Name</label>
+                                <input type="text" id="first_name" name="first_name" value={formik.values.first_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter your first name here"/>
+                                {formik.errors.first_name && formik.touched.first_name ? (<span className='text-red-500'>{formik.errors.first_name}</span>) : null}
                             </div>
                             <div>
-                                <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">Last name</label>
-                                <input type="text" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Doe"/>
+                                <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" value={formik.values.last_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter your last name here"/>
+                                {formik.errors.last_name && formik.touched.last_name ? (<span className='text-red-500'>{formik.errors.last_name}</span>) : null}
                             </div>
                             <div>
-                                <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input type="text" id="company" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Flowbite"/>
+                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                                <input type="text" id="email" name="email" value={formik.values.email} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter your email here"/>
+                                {formik.errors.email && formik.touched.email ? (<span className='text-red-500'>{formik.errors.email}</span>) : null}
                             </div>  
                             <div>
-                                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">Mobile</label>
-                                <input type="tel" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"/>
+                                <label htmlFor="mobile" className="block mb-2 text-sm font-medium text-gray-900">Mobile</label>
+                                <input type="text" id="mobile" name="mobile" value={formik.values.mobile} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter your mobile number here"/>
+                                {formik.errors.mobile && formik.touched.mobile ? (<span className='text-red-500'>{formik.errors.mobile}</span>) : null}
                             </div>
                         </div>
                         <div className='filter mb-6'>
-                            <select id="countries" className="bg-gray-50 border border-gray-300   text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                <option value="active">Active</option>
-                                <option value="inactive">In Active</option>
+                            <select id="status" name="status" value={formik.values.status} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300   text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                                <option value="1">Active</option>
+                                <option value="0">In Active</option>
                             </select>
                         </div>
+                        {formik.errors.status && formik.touched.status ? (<span className='text-red-500'>{formik.errors.status}</span>) : null}
                         <button type="submit" className="w-full text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update</button>
                     </form>
                 </div>

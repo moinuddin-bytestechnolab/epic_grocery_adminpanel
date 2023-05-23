@@ -27,7 +27,7 @@ const Index = () => {
         {/* This is a modal which is use for update user data */}
         {/* <EditUserModal isOpen={isModalOpen} onClose={closeModal}/> */}
 
-        <div className='flex items-center bg-white p-3'>
+        <div className='flex items-center justify-end bg-white p-3'>
             {/* Here is searchbar */}
             <div className='searchbar'>
                 <label className="relative block">
@@ -40,17 +40,17 @@ const Index = () => {
             </div>
 
             {/* Here is a filter */}
-            <div className='filter mx-2'>
+            {/* <div className='filter mx-2'>
                 <select id="countries" className="bg-gray-50 border border-gray-300   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option selected>Filter by status</option>
                     <option value="active">Active</option>
                     <option value="inactive">In Active</option>
                 </select>
-            </div>
+            </div> */}
 
             {/* Add categories AddEdit Modal */}
             <AddEditCatgory isOpen={isModalOpen} onClose={closeModal}/>
-            <button type="button" onClick={openModal} className="font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
+            <button type="button" onClick={openModal} className="font-medium rounded-lg text-sm px-5 py-2.5 ml-2 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
                 Add Categories
             </button>
 
@@ -85,7 +85,11 @@ const Index = () => {
                         </span>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Category Status 
+                        Category Status
+                        <span className='float-right cursor-pointer'>
+                            <TiArrowSortedUp/>
+                            <TiArrowSortedDown/>
+                        </span> 
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Actions

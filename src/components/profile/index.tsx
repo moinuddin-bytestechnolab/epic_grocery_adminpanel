@@ -47,23 +47,23 @@ const Index = () => {
               </div>
               <div className="grid gap-6 mb-6 md:grid-cols-2">
                   <div>
-                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">First name</label>
-                      <input type="text" id="first_name" name="first_name" value={formik.values.first_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter first name"/>
+                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">First Name</label>
+                      <input type="text" id="first_name" name="first_name" value={formik.values.first_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter first name here"/>
                       {formik.errors.first_name && formik.touched.first_name ? (<span className='text-red-500'>{formik.errors.first_name}</span>) : null}
                   </div>
                   <div>
-                      <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">Last name</label>
-                      <input type="text" id="last_name" name="last_name" value={formik.values.last_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter last name"/>
+                      <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
+                      <input type="text" id="last_name" name="last_name" value={formik.values.last_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter last name here"/>
                       {formik.errors.last_name && formik.touched.last_name ? (<span className='text-red-500'>{formik.errors.last_name}</span>) : null}
                   </div>
                   <div>
                       <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                      <input type="text" id="email" name="email" value={formik.values.email} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter your email"/>
+                      <input type="text" id="email" name="email" value={formik.values.email} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter your email here"/>
                       {formik.errors.email && formik.touched.email ? (<span className='text-red-500'>{formik.errors.email}</span>) : null}
                   </div>  
                   <div>
                       <label htmlFor="mobile" className="block mb-2 text-sm font-medium text-gray-900">Mobile</label>
-                      <input type="text" id="mobile" name="mobile" value={formik.values.mobile} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter mobile number"/>
+                      <input type="text" id="mobile" name="mobile" value={formik.values.mobile} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Enter mobile number here"/>
                       {formik.errors.mobile && formik.touched.mobile ? (<span className='text-red-500'>{formik.errors.mobile}</span>) : null}
                   </div>
               </div>
