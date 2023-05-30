@@ -51,7 +51,7 @@ const SweetAlert = {
           if (result.isConfirmed) {
             swalWithBootstrapButtons.fire(
               'Deleted!',
-              'Your file has been deleted.',
+              'Your data has been deleted.',
               'success'
             );
             onConfirm();

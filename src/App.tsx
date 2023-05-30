@@ -1,10 +1,10 @@
-import Dashboard from './components/dashboard';
-
+import Layout from './layout';
 
 const App = () => {
+
   return (
     <>
-      <Dashboard/>
+      <Layout/>
     </>
   )
 }

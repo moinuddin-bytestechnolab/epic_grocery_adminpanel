@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import Logo from '../../components/logo';
 import { useFormik } from 'formik';
 import { LoginSchema } from '../../schemas/LoginSchema';
+import { login } from '../../services/Auth.Service';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Toaster from '../../hooks/Toaster';
 
 
 const Login = () => {
+    const nevigate = useNavigate();
+
     // This formik function is use for handeling form & validation
     const formik = useFormik({
         initialValues : {
@@ -12,8 +19,21 @@ const Login = () => {
         },
         validationSchema : LoginSchema,
         onSubmit : (values) => {
-            console.log(values);
-        }
+            const {email,password} = values;            
+            login(email,password)
+            .then((res) => {
+                if(res){
+                    Toaster.success("Login successful!")
+                    nevigate("/")
+                }else{
+                    Toaster.error("Please enter valid email or password")
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                Toaster.error("Please enter valid email or password")
+            })
+        }   
     })
 
   return (
@@ -37,7 +57,7 @@ const Login = () => {
                             {formik.errors.password && formik.touched.password ? (<span className='text-red-500'>{formik.errors.password}</span>) : null}
                         </div>
                         <div className="flex justify-between">
-                            <a href="#" className="text-sm text-blue-700 hover:underline">Forgot Password?</a>
+                            <Link to="/forgot-password" className="text-sm text-blue-700 hover:underline">Forgot Password?</Link>
                         </div>
                         <button type="submit" className="w-full text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login to your account</button>
                     </form>

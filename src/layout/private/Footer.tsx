@@ -1,4 +1,4 @@
-const Index = () => {
+const Footer = () => {
   // This variable use for getting current year & use for showing copyright year
   const date = new Date();
 
@@ -11,4 +11,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default Footer

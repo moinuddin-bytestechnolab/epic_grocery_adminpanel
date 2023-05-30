@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { TfiSearch } from 'react-icons/tfi';
@@ -6,11 +7,32 @@ import { SlLogout } from 'react-icons/sl';
 import { RiSettings2Line } from 'react-icons/ri';
 import { HiOutlineLockClosed } from 'react-icons/hi';
 import { BiUser } from 'react-icons/bi';
+import { logout } from '../../services/Auth.Service';
+
 
 const TopBar = () => {
   // This state use for hide & show user profile tool tip
   const [showToolTip, setShowToolTip] = useState(false)
+  const [userProfileData, setUserProfileData] = useState<any>({})
+  
 
+  // In this function i'm getting an error of every click render function   
+  const getUserData = () => {
+    const userString = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+
+    if (user && user.accessToken) {
+      setUserProfileData(user.data);
+    } else {
+      console.log('not found');
+    }
+  };
+
+  useEffect(() => {
+
+    // getUserData();
+
+  },[]);
 
   return (
     <div className="bg-[#fff] flex items-center h-16 border-2 border-t-0 border-l-0 border-r-0">
@@ -44,8 +66,8 @@ const TopBar = () => {
           ?
             <div role="tooltip" className="absolute right-0 mt-12 z-10 inline-block w-56 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-1">
               <div className="p-3">
-                <p className="text-base font-semibold leading-none text-gray-900 dark:text-white"><a href="#">Moinuddin</a></p>
-                <p className="mb-3 text-sm font-normal"><a href="#" className="hover:underline">moinuddin@gmail.com</a></p>
+                <p className="text-base font-semibold leading-none text-gray-900 dark:text-white"><a href="#">{userProfileData.first_name}</a></p>
+                <p className="mb-3 text-sm font-normal"><a href="#" className="hover:underline">{userProfileData.email}</a></p>
               <hr />
                 <ul className='mt-3'>
                   <li>
@@ -67,10 +89,10 @@ const TopBar = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <a href="#" className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
+                    <NavLink to="login" onClick={logout} className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'>
                     <SlLogout className="w-4 h-4 text-red-500 transition duration-75 group-hover:text-gray-900"/>
                     <span className="ml-3">Log Out</span>
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>

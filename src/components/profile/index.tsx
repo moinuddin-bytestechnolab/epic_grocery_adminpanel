@@ -1,8 +1,32 @@
+import { useState, useEffect } from "react";
 import { useFormik } from "formik"
 import { ProfileSchema } from '../../schemas/ProfileSchema';
 
 
 const Index = () => {
+  const [userProfileData, setUserProfileData] = useState<any>({})
+
+
+  const getUserData = () => {
+    const userString = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+
+    if (user && user.accessToken) {
+      setUserProfileData(user.data);
+    } else {
+      console.log('not found');
+    }
+  };
+
+  useEffect(() => {
+
+    // getUserData();
+
+  },[]);
+
+  console.log('user profile data =>',userProfileData);
+  
+
   // This formik function is use for hndleling form & validation
   const formik = useFormik({
     initialValues : {

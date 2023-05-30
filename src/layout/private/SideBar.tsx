@@ -10,6 +10,7 @@ import { RiChatHistoryLine } from 'react-icons/ri';
 import { TbDiscountCheck } from 'react-icons/tb';
 
 
+
 const SideBar = () => {
   return (
     <aside id="default-sidebar" className="top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">

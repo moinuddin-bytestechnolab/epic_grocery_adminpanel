@@ -1,8 +1,12 @@
 import { useFormik } from 'formik';
 import { ChangePasswordSchema } from '../../schemas/ChangePasswordSchema';
+import { changePassword } from '../../api';
+import Toaster from '../../hooks/Toaster';
+import { useNavigate } from 'react-router-dom';
 
 
 const ChangePassword = () => {
+    const navigate = useNavigate();
     // This formik function is use for handling form & validation
     const formik = useFormik({
         initialValues : {
@@ -13,6 +17,19 @@ const ChangePassword = () => {
         validationSchema : ChangePasswordSchema,
         onSubmit : (values) => {
           console.log(values);
+          const {oldPassword,newPassword} = values;
+          changePassword(oldPassword,newPassword)
+          .then((res) => {
+            if(res){
+                Toaster.success("Password change successfully");
+                navigate("/login")
+            }else{
+                Toaster.error("Please check your password")
+            }
+          })
+          .catch((error) => {
+            console.log("Error => ",error);
+          })
         }
     })
 

@@ -1,27 +1,32 @@
 import { useFormik } from 'formik';
 import { addCategorySchema } from '../../schemas/AddCategorySchema';
+import { addCategories, getCategories } from '../../api';
 
 
-const currentDate = new Date();
-const year = currentDate.getFullYear();
-const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-const day = String(currentDate.getDate()).padStart(2, '0');
+const AddEditCatgory = ({ isOpen, onClose} : any) => {
+    
 
-const formattedDate = `${year}-${month}-${day}`;
-
-const AddEditCatgory = ({ isOpen, onClose } : any) => {
     // This formik function is use for handling form data & validation 
     const formik = useFormik({
         initialValues : {
             name : "",
             status : "1",
-            created_at : "",
-            updated_at : "",
             img_url : null,
         },
         validationSchema : addCategorySchema,
         onSubmit : (values,actions) => {
-            console.log(values);
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("status", values.status);
+            formData.append("image_url", values.img_url || '');
+            
+            addCategories(formData)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
             actions.resetForm()
             onClose(false)
         }
@@ -56,16 +61,6 @@ const AddEditCatgory = ({ isOpen, onClose } : any) => {
                                     <option value="0">In Active</option>
                                 </select>
                                 {formik.errors.status && formik.touched.status ? (<span className='text-red-500'>{formik.errors.status}</span>) : null}
-                            </div>
-                            <div>
-                                <label htmlFor="created_at" className="block mb-2 text-sm font-medium text-gray-900">Created at</label>
-                                <input type="date" name="created_at" id="created_at" value={formik.values.created_at} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Dairy & Bakery"/>
-                                {formik.errors.created_at && formik.touched.created_at ? (<span className='text-red-500'>{formik.errors.created_at}</span>) : null}
-                            </div>
-                            <div>
-                                <label htmlFor="updated_at" className="block mb-2 text-sm font-medium text-gray-900">Updated at</label>
-                                <input type="date" name="updated_at" id="updated_at" value={formik.values.updated_at} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Dairy & Bakery"/>
-                                {formik.errors.updated_at && formik.touched.updated_at ? (<span className='text-red-500'>{formik.errors.updated_at}</span>) : null}
                             </div>
                         </div>
                         <div>
