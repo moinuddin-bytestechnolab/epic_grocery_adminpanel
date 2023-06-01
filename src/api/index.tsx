@@ -49,9 +49,9 @@ export const deleteCategory = async (id: any) => {
 
 export const categoryFindById = async ( id : any) => {
     try {
-        const res = await axios.post(`${SERVER}categories/${id}`,{Headers : AuthHeader});
+        const res = await axios.get(`${SERVER}categories/${id}`,{headers : AuthHeader()});
         return res;
     } catch (error) {
-        console.log(`category not find ${error}`);
+        console.log(`category not found ${error}`);
     }
 }

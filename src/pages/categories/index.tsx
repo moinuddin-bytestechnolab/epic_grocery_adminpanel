@@ -9,12 +9,36 @@ import { deleteCategory, getCategories } from '../../api';
 import SweetAlert from '../../hooks/SweetAlert';
 import {date} from '../../helpers/Date';
 
+
 const Index = () => {
     // This state is use for handeling open close modal
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // fetch categories data
     const [fetchCategories, setFetchCategories] = useState([]); 
+
+    const [handleUpdateCategoryID, setHandleUpdateCategoryId] = useState(0)
+    const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+
+    const sortBy = (key : any) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+          direction = 'desc';
+        }
+    
+        const sortedData : any = [...fetchCategories].sort((a : any, b : any) => {
+          if (a[key] < b[key]) return -1;
+          if (a[key] > b[key]) return 1;
+          return 0;
+        });
+    
+        if (direction === 'desc') {
+          sortedData.reverse();
+        }
+    
+        setFetchCategories(sortedData);
+        setSortConfig({ key, direction });
+      };
 
     // This function is use for open modal
     const openModal = () => {
@@ -26,35 +50,52 @@ const Index = () => {
         setIsModalOpen(false);
     };
     
-    // 
+    // This function is use for fetch categories data from API
     const fetchCategoriesData = async () => {
         const res : any = await getCategories()
         setFetchCategories(res.data.data)
     }
 
-    // 
+    // This function is use for delete categrories from API
     const handleCategoryDelete = async (id : any) => {
         SweetAlert.confirm(
             'Are you sure?',
             "You won't be able to revert this!",
             async () => {
                 await deleteCategory(id)
-                setFetchCategories((prevCategories) =>
-                    prevCategories.filter((category : any) => category.id !== id)
-                )
+                .then((res) => {
+                    if(res){
+                        setFetchCategories((prevCategories) =>
+                            prevCategories.filter((category : any) => category.id !== id)
+                        )
+                    }else{
+                        return SweetAlert.error("Can't delete the category","Products are associated with it.")
+                    }
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
             },
             async () => {
-                console.log();
+                console.log('');
             }
         );
+    }
+
+    // This function is use for update category from API
+    const handleCategoryUpdate = async (id : any) => {
+        openModal()
+        setHandleUpdateCategoryId(id)
     }
 
     useEffect(() => {
         fetchCategoriesData()
     },[])
 
+    
+
   return (    
-    <div className="relative h-screen overflow-scroll">
+    <div className="relative h-screen overflow-y-scroll">
         
         <div className='flex items-center justify-end bg-white p-3'>
             <h1 className='mr-auto font-bold text-gray-600 text-xl uppercase'>Categories</h1>
@@ -69,17 +110,8 @@ const Index = () => {
                 </label>
             </div>
 
-            {/* Here is a filter */}
-            {/* <div className='filter mx-2'>
-                <select id="countries" className="bg-gray-50 border border-gray-300   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option selected>Filter by status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">In Active</option>
-                </select>
-            </div> */}
-
             {/* Add categories AddEdit Modal */}
-            <AddEditCatgory isOpen={isModalOpen} onClose={closeModal}/>
+            <AddEditCatgory isOpen={isModalOpen} onClose={closeModal} handleCategoryUpdate={handleUpdateCategoryID}/>
             <button type="button" onClick={openModal} className="font-medium rounded-lg text-sm px-5 py-2.5 ml-2 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
                 Add Categories
             </button>
@@ -99,14 +131,14 @@ const Index = () => {
                     <th scope="col" className="px-6 py-3">
                         Category Name 
                         <span className='float-right cursor-pointer'>
-                            <TiArrowSortedUp/>
-                            <TiArrowSortedDown/>
+                            <TiArrowSortedUp onClick={() => sortBy("name")}/>
+                            <TiArrowSortedDown onClick={() => sortBy("name")}/>
                         </span>
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Created At
                         <span className='float-right cursor-pointer'>
-                            <TiArrowSortedUp/>
+                            <TiArrowSortedUp onClick={() => sortBy("created_at")}/>
                             <TiArrowSortedDown/>
                         </span>
                     </th>
@@ -120,7 +152,7 @@ const Index = () => {
                     <th scope="col" className="px-6 py-3">
                         Category Status
                         <span className='float-right cursor-pointer'>
-                            <TiArrowSortedUp/>
+                            <TiArrowSortedUp onClick={() => sortBy("is_active")}/>
                             <TiArrowSortedDown/>
                         </span> 
                     </th>
@@ -139,7 +171,9 @@ const Index = () => {
                                 </td>
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div className="flex items-center justify-start">
-                                        <img className="w-10 h-10 rounded" src="/images/avatar.avif" alt="profile"/>
+                                        {
+                                            <img className="w-10 h-10 rounded" src={item.image_url?item.image_url:"/images/avatar.avif"} alt="profile"/>
+                                        }
                                     </div>
                                 </th>
                                 <td className="px-6 py-4">
@@ -162,7 +196,7 @@ const Index = () => {
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className='flex text-xl'>
-                                        <FiEdit onClick={openModal} className="text-blue-500 cursor-pointer mx-1"/>
+                                        <FiEdit onClick={() => handleCategoryUpdate(item.id)} className="text-blue-500 cursor-pointer mx-1"/>
                                         <RiDeleteBin6Line onClick={() => handleCategoryDelete(item.id)} className="text-red-500 cursor-pointer"/>
                                     </div>
                                 </td>

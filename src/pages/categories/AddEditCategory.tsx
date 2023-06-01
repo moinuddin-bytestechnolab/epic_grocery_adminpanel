@@ -1,24 +1,23 @@
+import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { addCategorySchema } from '../../schemas/AddCategorySchema';
-import { addCategories, getCategories } from '../../api';
+import { addCategories, categoryFindById } from '../../api';
 
 
-const AddEditCatgory = ({ isOpen, onClose} : any) => {
-    
-
+const AddEditCatgory = ({ isOpen, onClose, handleCategoryUpdate} : any) => {
     // This formik function is use for handling form data & validation 
     const formik = useFormik({
         initialValues : {
             name : "",
-            status : "1",
-            img_url : null,
+            status : "",
+            // img_url : null || '',
         },
         validationSchema : addCategorySchema,
         onSubmit : (values,actions) => {
             const formData = new FormData();
             formData.append("name", values.name);
             formData.append("status", values.status);
-            formData.append("image_url", values.img_url || '');
+            // formData.append("image_url", values.img_url || '');
             
             addCategories(formData)
             .then((res) => {
@@ -31,6 +30,25 @@ const AddEditCatgory = ({ isOpen, onClose} : any) => {
             onClose(false)
         }
     })
+    
+    
+    // This function is use for update category from API
+    const handleUpdateCategory = async () => {
+        const res = await categoryFindById(handleCategoryUpdate)
+        const {data : {data}} : any = res;
+        
+        formik.setValues({
+            "name" : data.name,
+            "status" : data.is_active,
+            // "img_url" : "imag1.jpg"
+        })
+    }   
+    
+    useEffect(()=>{
+        if(handleCategoryUpdate){
+            handleUpdateCategory()
+        }
+    },[handleCategoryUpdate])
 
     // This condition is use for handeling open close modal
     if (!isOpen) {
@@ -57,18 +75,18 @@ const AddEditCatgory = ({ isOpen, onClose} : any) => {
                             <div>
                                 <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900">Category status</label>
                                 <select id="status" name='status' value={formik.values.status} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                    <option value="1">Active</option>
-                                    <option value="0">In Active</option>
+                                    <option value='true'>Active</option>
+                                    <option value='false'>In Active</option>
                                 </select>
                                 {formik.errors.status && formik.touched.status ? (<span className='text-red-500'>{formik.errors.status}</span>) : null}
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <label htmlFor="img_url" className="block mb-2 text-sm font-medium text-gray-900">Choose category image</label>
                             <input type="file" name="img_url" id="img_url" accept='/*' onChange={(event : any) => { formik.setFieldValue('img_url', event.currentTarget.files[0]); }} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
                             {formik.errors.img_url && formik.touched.img_url ? (<span className='text-red-500'>{formik.errors.img_url}</span>) : null}
                             {formik.values.img_url && (<img src={URL.createObjectURL(formik.values.img_url)} alt="Preview" className='h-10 w-10 my-3'/>)}
-                        </div>
+                        </div> */}
                         <button type="submit" className="w-full text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Category</button>
                     </form>
                 </div>

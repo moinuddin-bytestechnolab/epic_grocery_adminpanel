@@ -19,7 +19,7 @@ const Index = () => {
       {
         checkLogin 
         ? 
-         <div className="flex h-screen overflow-hidden bg-gray-100">
+         <div className="flex h-screen overflow-hidden  bg-gray-100">
             {/* Dashboard sidebar */}
                 <SideBar/>
             <div className="flex-1 grid">

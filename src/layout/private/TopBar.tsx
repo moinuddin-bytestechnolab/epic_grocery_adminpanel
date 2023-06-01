@@ -30,7 +30,7 @@ const TopBar = () => {
 
   useEffect(() => {
 
-    // getUserData();
+    getUserData();
 
   },[]);
 
