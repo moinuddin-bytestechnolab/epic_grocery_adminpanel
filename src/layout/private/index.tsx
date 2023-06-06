@@ -1,7 +1,8 @@
 import { Outlet, useNavigate } from "react-router-dom"
 import SideBar from "./SideBar"
 import TopBar from "./TopBar"
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import Loader from "../../assets/Loader";
 
 
 const Index = () => {
@@ -27,7 +28,9 @@ const Index = () => {
                 <TopBar />
             <div className="m-3">
             {/* Dashboard content here */}
+              <Suspense fallback={<Loader/>}>
                 {<Outlet/>}
+              </Suspense>
             </div>
             </div>
         </div>

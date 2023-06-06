@@ -1,45 +1,48 @@
-import { Route, Routes } from "react-router-dom"
-import Private from './private';
-import Public from './public';
-import Profile from "../components/profile"
-import Settings from "../components/settings"
-import ChangePassword from "../pages/authentication/ChangePassword"
-import Categories from "../pages/categories"
-import Dashboard from "../pages/dashboard"
-import FeaturedProduct from "../pages/featuredProduct"
-import Offers from "../pages/offers"
-import OrderList from "../pages/orderList"
-import PaymentHistory from "../pages/paymentHistory"
-import Products from "../pages/products"
-import Users from "../pages/users"
-import Login from '../pages/authentication/Login';
-import ForgotPassword from "../pages/authentication/ForgotPassword";
-import ResetPassword from "../pages/authentication/ResetPassword";
-
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
+const Private = React.lazy(() => import('./private'));
+const Public = React.lazy(() => import('./public'));
+const Profile = React.lazy(() => import('../components/profile'));
+const Settings = React.lazy(() => import('../components/settings'));
+const ChangePassword = React.lazy(() => import('../pages/authentication/ChangePassword'));
+const Categories = React.lazy(() => import('../pages/categories'));
+const Dashboard = React.lazy(() => import('../pages/dashboard'));
+const FeaturedProduct = React.lazy(() => import('../pages/featuredProduct'));
+const Offers = React.lazy(() => import('../pages/offers'));
+const OrderList = React.lazy(() => import('../pages/orderList'));
+const PaymentHistory = React.lazy(() => import('../pages/paymentHistory'));
+const Products = React.lazy(() => import('../pages/products'));
+const Users = React.lazy(() => import('../pages/users'));
+const Login = React.lazy(() => import('../pages/authentication/Login'));
+const ForgotPassword = React.lazy(() => import('../pages/authentication/ForgotPassword'));
+const ResetPassword = React.lazy(() => import('../pages/authentication/ResetPassword'));
+const NotFoundPage = React.lazy(() => import('../pages/404'));
+const Loader  = React.lazy(() => import ('../assets/Loader'));
 
 const Index = () => {
 
     return (
       <>
         <Routes>
-            <Route path="/" element={<Private/>}>
-                <Route path="/" element={<Dashboard />}/>
-                <Route path="/users" element={<Users/>}/>
-                <Route path="/orders" element={<OrderList/>}/>
-                <Route path="/offers" element={<Offers/>}/>
-                <Route path="/categories" element={<Categories/>}/>
-                <Route path="/products" element={<Products/>}/>
-                <Route path="/payment-history" element={<PaymentHistory/>}/>
-                <Route path="/featured-product" element={<FeaturedProduct/>}/>
-                <Route path="/profile" element={<Profile/>}/>
-                <Route path="/change-password" element={<ChangePassword/>}/>
-                <Route path="/settings" element={<Settings/>}/>
-            </Route>
-            <Route path="/" element={<Public/>}>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                <Route path="/reset-password" element={<ResetPassword/>}/>
-            </Route>
+          <Route path="/" element={<Private/>}>
+            <Route path="/" element={<Dashboard />}/>
+            <Route path="/users" element={<Users/>}/>
+            <Route path="/orders" element={<OrderList/>}/>
+            <Route path="/offers" element={<Offers/>}/>
+            <Route path="/categories" element={<Categories/>}/>
+            <Route path="/products" element={<Products/>}/>
+            <Route path="/payment-history" element={<PaymentHistory/>}/>
+            <Route path="/featured-product" element={<FeaturedProduct/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/change-password" element={<ChangePassword/>}/>
+            <Route path="/settings" element={<Settings/>}/>
+          </Route>
+          <Route path="/" element={<Public/>}>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/forgot-password" element={<ForgotPassword/>}/>
+            <Route path="/reset-password" element={<ResetPassword/>}/>
+          </Route>
+          <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
       </>
     )

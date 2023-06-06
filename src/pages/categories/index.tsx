@@ -13,13 +13,27 @@ import {date} from '../../helpers/Date';
 const Index = () => {
     // This state is use for handeling open close modal
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    
     // fetch categories data
     const [fetchCategories, setFetchCategories] = useState([]); 
 
-    const [handleUpdateCategoryID, setHandleUpdateCategoryId] = useState(0)
+    // This state is use for get category ID
+    const [handleUpdateCategoryID, setHandleUpdateCategoryId] = useState()
+
+    // This state is use for sorting 
     const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
+    // This function is use for open modal
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+    
+    // This function is use for close modal
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    // This is a sorting function
     const sortBy = (key : any) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -38,18 +52,8 @@ const Index = () => {
     
         setFetchCategories(sortedData);
         setSortConfig({ key, direction });
-      };
+    };
 
-    // This function is use for open modal
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-    
-    // This function is use for close modal
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-    
     // This function is use for fetch categories data from API
     const fetchCategoriesData = async () => {
         const res : any = await getCategories()
@@ -91,12 +95,10 @@ const Index = () => {
     useEffect(() => {
         fetchCategoriesData()
     },[])
-
     
 
   return (    
     <div className="relative h-screen overflow-y-scroll">
-        
         <div className='flex items-center justify-end bg-white p-3'>
             <h1 className='mr-auto font-bold text-gray-600 text-xl uppercase'>Categories</h1>
             {/* Here is searchbar */}
@@ -111,7 +113,7 @@ const Index = () => {
             </div>
 
             {/* Add categories AddEdit Modal */}
-            <AddEditCatgory isOpen={isModalOpen} onClose={closeModal} handleCategoryUpdate={handleUpdateCategoryID}/>
+            <AddEditCatgory isOpen={isModalOpen} onClose={closeModal} handleCategoryUpdate={handleUpdateCategoryID} fetchCategoriesData={fetchCategoriesData}/>
             <button type="button" onClick={openModal} className="font-medium rounded-lg text-sm px-5 py-2.5 ml-2 text-center inline-flex items-center text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600">
                 Add Categories
             </button>
@@ -139,21 +141,21 @@ const Index = () => {
                         Created At
                         <span className='float-right cursor-pointer'>
                             <TiArrowSortedUp onClick={() => sortBy("created_at")}/>
-                            <TiArrowSortedDown/>
+                            <TiArrowSortedDown onClick={() => sortBy("created_at")}/>
                         </span>
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Updated At
                         <span className='float-right cursor-pointer'>
-                            <TiArrowSortedUp/>
-                            <TiArrowSortedDown/>
+                            <TiArrowSortedUp onClick={() => sortBy("updated_at")}/>
+                            <TiArrowSortedDown onClick={() => sortBy("updated_at")}/>
                         </span>
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Category Status
                         <span className='float-right cursor-pointer'>
                             <TiArrowSortedUp onClick={() => sortBy("is_active")}/>
-                            <TiArrowSortedDown/>
+                            <TiArrowSortedDown onClick={() => sortBy("is_active")}/>
                         </span> 
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -172,7 +174,7 @@ const Index = () => {
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div className="flex items-center justify-start">
                                         {
-                                            <img className="w-10 h-10 rounded" src={item.image_url?item.image_url:"/images/avatar.avif"} alt="profile"/>
+                                            <img className="w-10 h-10 rounded" src={item.image_url} alt="profile"/>
                                         }
                                     </div>
                                 </th>
@@ -187,7 +189,7 @@ const Index = () => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {
-                                        item.is_active === true 
+                                        item.is_active === true
                                         ? 
                                         <span className="bg-green-500 rounded p-1 text-white font-medium">Active</span>
                                         :
@@ -206,7 +208,7 @@ const Index = () => {
                     : 
                     <tr className='bg-white border-b text-center font-bold uppercase'>
                         <td colSpan={8} className='px-6 py-4'>
-                            <span>Data not found</span>
+                            <span>Categories not found</span>
                         </td>
                     </tr>
                 }
@@ -215,7 +217,7 @@ const Index = () => {
 
         {/* This is a pagination */}
         <div className='flex justify-center'>
-            <Pagination/>
+            {/* <Pagination/> */}
         </div>
     </div>
   )

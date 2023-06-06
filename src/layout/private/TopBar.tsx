@@ -66,8 +66,8 @@ const TopBar = () => {
           ?
             <div role="tooltip" className="absolute right-0 mt-12 z-10 inline-block w-56 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-1">
               <div className="p-3">
-                <p className="text-base font-semibold leading-none text-gray-900 dark:text-white"><a href="#">{userProfileData.first_name}</a></p>
-                <p className="mb-3 text-sm font-normal"><a href="#" className="hover:underline">{userProfileData.email}</a></p>
+                <p className="text-base font-semibold leading-none text-gray-900 dark:text-white"><a href="#">{userProfileData?.first_name || "Admin"}</a></p>
+                <p className="mb-3 text-sm font-normal"><a href="#" className="hover:underline">{userProfileData?.email || "admin123@gmail.com"}</a></p>
               <hr />
                 <ul className='mt-3'>
                   <li>

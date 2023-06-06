@@ -1,11 +1,11 @@
+import { API_PORT } from '../config/config';
 import axios from 'axios';
 
-const API_URL = 'http://192.168.10.170:3000/';
 
 // Login 
 export const login = (email : any, password : any) => {
     return axios
-    .post(`${API_URL}auth/login`,{
+    .post(`${API_PORT}auth/login`,{
         email,password
     })
     .then((response)=>{
@@ -29,7 +29,7 @@ export const logout = () => {
 // Register 
 export const register = (username : any, email : any, password : any) => {
     return axios
-    .post(API_URL + 'users/register',{
+    .post(API_PORT + 'users/register',{
         username,email,password
     });
 }

@@ -1,25 +1,93 @@
+import { useEffect,  useState } from 'react';
 import { useFormik } from 'formik';
 import { TiDelete } from 'react-icons/ti';
 import { addProductSchema } from '../../schemas/AddProductSchema';
+import { addProduct, getCategories, productFindById, updateProduct } from '../../api';
+import Toaster from '../../hooks/Toaster';
 
 
-const AddEditProducts = ({ isOpen, onClose } : any) => {
+const AddEditProducts = ({ isOpen, onClose, handleUpdateProductID, fetchProducts } : any) => {
+    // This state use for store fetch categories data
+    const [fetchCategoriesData, setFetchCategoriesData] = useState([])
+    
   // This formik function use for handling form data & validation 
   const formik = useFormik({
     initialValues : {
-        category : "",
+        category : "" ,
         name : "",
         description : "",
-        price : 0,
-        qty : 0,
-        created_at : "",
-        updated_at : "",
-        status : "",
-        img_url : [],
+        price : "",
+        qty : "",
+        status : 1,
+        img_url : null || '' || [],
     },
     validationSchema : addProductSchema,
-    onSubmit : (values) => {
-        console.log(values);    
+    onSubmit : async (values, actions) => {
+        console.log('values => ',values.img_url);
+        
+        const cloudImage = new FormData()
+            // values.img_url.forEach((file : any, index : any) => {
+            //     cloudImage.append(`file_${index}`, file)
+            // })
+            cloudImage.append("file",values.img_url[0] || '')
+            cloudImage.append("folder","epicGrocery");
+            cloudImage.append("upload_preset","epicgrocery");
+            cloudImage.append("cloud_name","dqiq9hctx");
+            
+            console.log('cloudImage =>', cloudImage);
+            
+            await fetch("https://api.cloudinary.com/v1_1/dqiq9hctx/image/upload",{
+                method :"post",
+                body : cloudImage
+            })
+            .then( (res)=>res.json())
+            .then((data) =>{
+                const formData = {
+                    "category_id" : values.category ,
+                    "name" : values.name,
+                    "description" : values.description,
+                    "price" : values.price,
+                    "qty" : values.qty,
+                    "is_active" : values.status,
+                    "image_url" : data.url,
+                }
+                
+                if(handleUpdateProductID){
+                    updateProduct(handleUpdateProductID,formData)
+                    .then((res) => {
+                        if(res){
+                            Toaster.success("Product update successfuly")
+                            actions.resetForm()
+                            onClose(false)
+                            fetchProducts()
+                        }else{
+                            Toaster.error("Product is not updated")
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+
+                }else{
+                    addProduct(formData)
+                    .then((res) => {
+                        if(res){
+                            Toaster.success("Product add successfuly")
+                            actions.resetForm()
+                            onClose(false)
+                            fetchProducts()
+                        }else{
+                            Toaster.error("Product already exist")
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })    
     }
 })  
 
@@ -36,11 +104,45 @@ const handleFileDelete = (index : any) => {
     formik.setFieldValue('img_url', newImages);
 }
 
+// fetch categories from API
+const fetchCategories = async () => {
+    const res = await getCategories();
+    const {data : {data}} : any = res;
+    setFetchCategoriesData(data)
+}
+
+// This function is use for update product from API
+const handleUpdateProduct = async () => {
+    const res = await productFindById(handleUpdateProductID)
+    const { data } : any = res?.data || {};
+    console.log('data => ', data);
+    
+    formik.setValues({
+        "category" : data?.category.name || '' ,
+        "name" : data?.name,
+        "description" : data?.description,
+        "price" : data?.price,
+        "qty" : data?.qty,
+        "status" : data?.is_active ? 1 : 0,
+        "img_url" : data?.image_url || null,
+    })    
+
+}   
+
+
+useEffect(() => {
+    if(handleUpdateProductID){
+        handleUpdateProduct()
+    }
+
+    fetchCategories()
+},[handleUpdateProductID])
+
+
 // This condition is use for handeling open close modal
 if (!isOpen) {
   return null;
 }
-
 
   return (
     <div className="fixed flex justify-center items-center top-0 left-0 right-0 z-50  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full" style={{background: 'radial-gradient(#9E9E9E, transparent)'}}>
@@ -57,10 +159,18 @@ if (!isOpen) {
                             <div>
                                 <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">Select category</label>
                                 <select id="category" name='category' value={formik.values.category} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                    <option selected>Choose a category</option>
-                                    <option value="Dairy & Bakery">Dairy & Bakery</option>
-                                    <option value="Foods">Foods</option>
-                                    <option value="Vegitable">Vegitable</option>
+                                <option value="">choose category</option>
+                                    {
+                                        fetchCategoriesData[0] ? fetchCategoriesData.map((item : any, index : any) => {
+                                            return (
+                                                <>
+                                                    <option key={index} value={item.id}>{item.name}</option>
+                                                </>
+                                            )
+                                        })
+                                        :
+                                        <option>category not found</option>
+                                    }
                                 </select>
                                 {formik.errors.category && formik.touched.category ? (<span className='text-red-500'>{formik.errors.category}</span>) : null}
                             </div>
@@ -76,39 +186,27 @@ if (!isOpen) {
                             </div>
                             <div>
                                 <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                <input type="number" name="price" id="price" value={formik.values.price} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="₹100"/>
+                                <input type="text" name="price" id="price" value={formik.values.price} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="₹100"/>
                                 {formik.errors.price && formik.touched.price ? (<span className='text-red-500'>{formik.errors.price}</span>) : null}
                             </div>
                             <div>
                                 <label htmlFor="qty" className="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
-                                <input type="number" name="qty" id="qty" value={formik.values.qty} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="05"/>
+                                <input type="text" name="qty" id="qty" value={formik.values.qty} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="05"/>
                                 {formik.errors.qty && formik.touched.qty ? (<span className='text-red-500'>{formik.errors.qty}</span>) : null}
                             </div>                                
                             <div>
                                 <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900">Product status</label>
                                 <select id="status" name='status' value={formik.values.status} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                    <option value="1">Active</option>
-                                    <option value="0">In Active</option>
+                                    <option value={1}>Active</option>
+                                    <option value={0}>In Active</option>
                                 </select>
                                 {formik.errors.status && formik.touched.status ? (<span className='text-red-500'>{formik.errors.status}</span>) : null}
                             </div>                          
                         </div>
-                        <div className="grid gap-6 mb-6 md:grid-cols-2">  
-                          <div>
-                            <label htmlFor="created_at" className="block mb-2 text-sm font-medium text-gray-900">Created at</label>
-                            <input type="date" name="created_at" id="created_at" value={formik.values.created_at} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="Milk"/>
-                            {formik.errors.created_at && formik.touched.created_at ? (<span className='text-red-500'>{formik.errors.created_at}</span>) : null}
-                          </div>
-                          <div>
-                            <label htmlFor="updated_at" className="block mb-2 text-sm font-medium text-gray-900">Updated at</label>
-                            <input type="date" name="updated_at" id="updated_at" value={formik.values.updated_at} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="₹100"/>
-                            {formik.errors.updated_at && formik.touched.updated_at ? (<span className='text-red-500'>{formik.errors.updated_at}</span>) : null}
-                          </div>            
-                        </div>
                         <div>
                             <label htmlFor="img_url" className="block mb-2 text-sm font-medium text-gray-900">Choose product images</label>
                             <input type="file" name="img_url" id="img_url" accept='images/*' multiple onChange={handleFileChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
-                            {
+                            {/* {
                                 formik.values.img_url.map((item,index)=>{
                                     return (
                                         <div className='inline-flex'> 
@@ -117,10 +215,10 @@ if (!isOpen) {
                                         </div>
                                     )
                                 })
-                            }
-                            {formik.errors.img_url && formik.touched.img_url ? (<span className='text-red-500'>{formik.errors.img_url}</span>) : null}
+                            } */}
+                            {/* {formik.errors.img_url && formik.touched.img_url ? (<span className='text-red-500'>{formik.errors.img_url}</span>) : null} */}
                         </div>
-                        <button type="submit" className="w-full text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Product</button>
+                        <button type="submit" className="w-full text-white bg-gray-600 border-2 hover:bg-white hover:text-gray-600 hover:border-2 hover:border-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center">{handleUpdateProductID ? "Update Product" : "Add Product" }</button>
                     </form>
                 </div>
             </div>
