@@ -36,7 +36,7 @@ const Index = () => {
     },[])    
 
   return (    
-    <div className="relative h-screen overflow-scroll">
+    <div className="">
         {/* This is a modal which is use for update user data */}
         <EditUserModal isOpen={isModalOpen} onClose={closeModal}/>
 
@@ -152,8 +152,8 @@ const Index = () => {
                     })
                     :
                     <tr className='bg-white border-b text-center font-bold uppercase'>
-                        <td colSpan={8} className='px-6 py-4'>
-                            <span>Data not found</span>
+                        <td colSpan={10} className='px-6 py-4'>
+                            <span>User's not found</span>
                         </td>
                     </tr>
                 }

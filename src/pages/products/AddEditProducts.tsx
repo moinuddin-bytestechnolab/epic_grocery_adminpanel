@@ -24,70 +24,79 @@ const AddEditProducts = ({ isOpen, onClose, handleUpdateProductID, fetchProducts
     validationSchema : addProductSchema,
     onSubmit : async (values, actions) => {
         console.log('values => ',values.img_url);
-        
+        const images:any[] = [];
         const cloudImage = new FormData()
-            // values.img_url.forEach((file : any, index : any) => {
-            //     cloudImage.append(`file_${index}`, file)
-            // })
-            cloudImage.append("file",values.img_url[0] || '')
-            cloudImage.append("folder","epicGrocery");
-            cloudImage.append("upload_preset","epicgrocery");
-            cloudImage.append("cloud_name","dqiq9hctx");
-            
-            console.log('cloudImage =>', cloudImage);
-            
-            await fetch("https://api.cloudinary.com/v1_1/dqiq9hctx/image/upload",{
-                method :"post",
-                body : cloudImage
-            })
-            .then( (res)=>res.json())
-            .then((data) =>{
-                const formData = {
-                    "category_id" : values.category ,
-                    "name" : values.name,
-                    "description" : values.description,
-                    "price" : values.price,
-                    "qty" : values.qty,
-                    "is_active" : values.status,
-                    "image_url" : data.url,
-                }
+            values.img_url.map((file : any, index : any) => {
+                console.log('values => ',file);  
+                cloudImage.append("file",file)
+                cloudImage.append("folder","epicGrocery");
+                cloudImage.append("upload_preset","epicgrocery");
+                cloudImage.append("cloud_name","dqiq9hctx");
                 
-                if(handleUpdateProductID){
-                    updateProduct(handleUpdateProductID,formData)
-                    .then((res) => {
-                        if(res){
-                            Toaster.success("Product update successfuly")
-                            actions.resetForm()
-                            onClose(false)
-                            fetchProducts()
-                        }else{
-                            Toaster.error("Product is not updated")
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-
-                }else{
-                    addProduct(formData)
-                    .then((res) => {
-                        if(res){
-                            Toaster.success("Product add successfuly")
-                            actions.resetForm()
-                            onClose(false)
-                            fetchProducts()
-                        }else{
-                            Toaster.error("Product already exist")
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-                }
+                console.log('cloudImage =>', cloudImage);
+                
+                fetch("https://api.cloudinary.com/v1_1/dqiq9hctx/image/upload",{
+                    method :"post",
+                    body : cloudImage
+                })
+                .then( (res)=>{
+                    return res.json()
+                }).then((data) =>{
+                    console.log(data)
+                    images.push(data.url)
+                })
             })
-            .catch((error) => {
-                console.log(error);
-            })    
+            console.log(images)
+            // if(images.length === values.img_url.length ){
+
+            // }
+            // .then((data) =>{
+            //     const formData = {
+            //         "category_id" : values.category ,
+            //         "name" : values.name,
+            //         "description" : values.description,
+            //         "price" : values.price,
+            //         "qty" : values.qty,
+            //         "is_active" : values.status,
+            //         "image_url" : data.url,
+            //     }
+                
+            //     if(handleUpdateProductID){
+            //         updateProduct(handleUpdateProductID,formData)
+            //         .then((res) => {
+            //             if(res){
+            //                 Toaster.success("Product update successfuly")
+            //                 actions.resetForm()
+            //                 onClose(false)
+            //                 fetchProducts()
+            //             }else{
+            //                 Toaster.error("Product is not updated")
+            //             }
+            //         })
+            //         .catch((error) => {
+            //             console.log(error);
+            //         })
+
+            //     }else{
+            //         addProduct(formData)
+            //         .then((res) => {
+            //             if(res){
+            //                 Toaster.success("Product add successfuly")
+            //                 actions.resetForm()
+            //                 onClose(false)
+            //                 fetchProducts()
+            //             }else{
+            //                 Toaster.error("Product already exist")
+            //             }
+            //         })
+            //         .catch((error) => {
+            //             console.log(error);
+            //         })
+            //     }
+            // })
+            // .catch((error) => {
+            //     console.log(error);
+            // })    
     }
 })  
 

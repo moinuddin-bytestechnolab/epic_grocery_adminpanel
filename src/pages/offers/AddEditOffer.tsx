@@ -1,35 +1,74 @@
 import { useFormik } from 'formik';
 import { addOfferSchema } from '../../schemas/AddOfferSchema';
+import { addOffers, findProductByCategoryId, getCategories } from '../../api';
+import { useState, useEffect } from 'react';
 
-
-const currentDate = new Date();
-const year = currentDate.getFullYear();
-const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-const day = String(currentDate.getDate()).padStart(2, '0');
-
-const formattedDate = `${year}-${month}-${day}`;
 
 const AddEditOffer = ({ isOpen, onClose } : any) => {
+    // fetch categories data
+    const [fetchCategories, setFetchCategories] = useState([]); 
+
+    // fetch products data
+    const [fetchProducts, setFetchProducts] = useState([]); 
+
+    // 
+    const [temp, setTemp] = useState(false)
+
     // This formik function is use for handling form data & validation 
     const formik = useFormik({
         initialValues : {
-            category_name : "",
-            product_name : "",
+            category_name : 0,
+            product_name : 0,
             discount : "",
             start_date : "",
             end_date : "",
-            created_at : "",
-            updated_at : "",
-            status : "1",
+            status : 1,
         },
         validationSchema : addOfferSchema,
         onSubmit : (values,actions) => {
-            console.log(values);
-            actions.resetForm()
-            onClose(false)
+            const formData = {
+                "category" : values.category_name,
+                "product" : values.product_name,
+                "discount_percentage" : Number(values.discount),
+                "start_date" : values.start_date,
+                "end_date" : values.end_date,
+                "is_active" : values.status,
+            }
+            
+            addOffers(formData)
+            .then((res) => {
+                if(res){
+                    console.log('offers added successfukt= >', res);
+                    actions.resetForm()
+                    onClose(false)
+                }
+            })
         }
     })
 
+    // This function is use for fetch categories data from API
+    const fetchCategoriesData = async () => {
+        const res : any = await getCategories()
+        setFetchCategories(res.data.data)
+    }
+
+
+    if(formik.values.category_name){
+        // This function is use for fetch products by category id from API
+        const fetchProductsData = async () => {
+            const categoryID = formik.values.category_name;
+            const res : any = await findProductByCategoryId(categoryID)
+            console.log('res => ', res);
+            setFetchProducts(res.data.data)
+        }
+        // fetchProductsData()
+    }
+    useEffect(() => {
+        fetchCategoriesData()
+    },[])
+    
+    console.log('fetchProducts => ', fetchProducts);
+        
     // This condition is use for handeling open close modal
     if (!isOpen) {
         return null;
@@ -50,16 +89,27 @@ const AddEditOffer = ({ isOpen, onClose } : any) => {
                             <div>
                                 <label htmlFor="category_name" className="block mb-2 text-sm font-medium text-gray-900">Category Name</label>
                                 <select id="category_name" name='category_name' value={formik.values.category_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                    <option value="food">Food</option>
-                                    <option value="Dairy">Dairy</option>
+                                    <option value="">Choose category</option>
+                                    {
+                                        fetchCategories[0] ? 
+                                        fetchCategories.map((item : any,  index : any) => {
+                                            return (
+                                                <option key={index} value={item.id}>{item.name}</option>
+                                            )
+                                        })
+                                        :
+                                        <option value="">category not found</option>
+                                    }
                                 </select>
                                 {formik.errors.category_name && formik.touched.category_name ? (<span className='text-red-500'>{formik.errors.category_name}</span>) : null}
                             </div>
                             <div>
                                 <label htmlFor="product_name" className="block mb-2 text-sm font-medium text-gray-900">Product Name</label>
                                 <select id="product_name" name='product_name' value={formik.values.product_name} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                    <option value="Apple">Apple</option>
-                                    <option value="Milk">Milk</option>
+                                    <option value="">Choose product</option>
+                                    {
+                                        <option value="Milk">Milk</option>
+                                    }
                                 </select>
                                 {formik.errors.product_name && formik.touched.product_name ? (<span className='text-red-500'>{formik.errors.product_name}</span>) : null}
                             </div>
@@ -74,16 +124,6 @@ const AddEditOffer = ({ isOpen, onClose } : any) => {
                                 {formik.errors.end_date && formik.touched.end_date ? (<span className='text-red-500'>{formik.errors.end_date}</span>) : null}
                             </div>
                             <div>
-                                <label htmlFor="created_at" className="block mb-2 text-sm font-medium text-gray-900">Created At</label>
-                                <input type="date" name="created_at" id="created_at" value={formik.values.created_at} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
-                                {formik.errors.created_at && formik.touched.created_at ? (<span className='text-red-500'>{formik.errors.created_at}</span>) : null}
-                            </div>
-                            <div>
-                                <label htmlFor="updated_at" className="block mb-2 text-sm font-medium text-gray-900">Updated At</label>
-                                <input type="date" name="updated_at" id="updated_at" value={formik.values.updated_at} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"/>
-                                {formik.errors.updated_at && formik.touched.updated_at ? (<span className='text-red-500'>{formik.errors.updated_at}</span>) : null}
-                            </div>
-                            <div>
                                 <label htmlFor="discount" className="block mb-2 text-sm font-medium text-gray-900">Discount %</label>
                                 <input type="text" name="discount" id="discount" value={formik.values.discount} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder='Enter discount here'/>
                                 {formik.errors.discount && formik.touched.discount ? (<span className='text-red-500'>{formik.errors.discount}</span>) : null}
@@ -91,8 +131,8 @@ const AddEditOffer = ({ isOpen, onClose } : any) => {
                             <div>
                                 <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                 <select id="status" name='status' value={formik.values.status} onChange={formik.handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                    <option value="1">Active</option>
-                                    <option value="0">In Active</option>
+                                    <option value={1}>Active</option>
+                                    <option value={0}>In Active</option>
                                 </select>
                                 {formik.errors.status && formik.touched.status ? (<span className='text-red-500'>{formik.errors.status}</span>) : null}
                             </div>

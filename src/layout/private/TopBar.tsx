@@ -8,6 +8,8 @@ import { RiSettings2Line } from 'react-icons/ri';
 import { HiOutlineLockClosed } from 'react-icons/hi';
 import { BiUser } from 'react-icons/bi';
 import { logout } from '../../services/Auth.Service';
+import ClickAwayListener from 'react-click-away-listener';
+
 
 
 const TopBar = () => {
@@ -28,10 +30,12 @@ const TopBar = () => {
     }
   };
 
+  const handleClickAway = () => {
+    setShowToolTip(false)
+	};
+
   useEffect(() => {
-
     getUserData();
-
   },[]);
 
   return (
@@ -64,6 +68,7 @@ const TopBar = () => {
         {
           showToolTip 
           ?
+          <ClickAwayListener onClickAway={handleClickAway}>
             <div role="tooltip" className="absolute right-0 mt-12 z-10 inline-block w-56 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-1">
               <div className="p-3">
                 <p className="text-base font-semibold leading-none text-gray-900 dark:text-white"><a href="#">{userProfileData?.first_name || "Admin"}</a></p>
@@ -97,6 +102,7 @@ const TopBar = () => {
                 </ul>
               </div>
             </div>
+          </ClickAwayListener>
           : 
             null
         }

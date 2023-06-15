@@ -30,13 +30,14 @@ export default class Example extends PureComponent {
   render() {
     return (
       <>
-        <div className='relative top-10 left-10 z-40'>
+      <div className='relative bg-black'>
+        <div className='absolute z-40 w-32'>
             <span className='h-2 w-5 bg-green-500 inline-block mx-1'></span>In Stock
             <br /> 
             <span className='h-2 w-5 bg-orange-500 inline-block mx-1'></span>Out Of Stock 
         </div>
-        <div className='absolute right-3'>
-        <PieChart width={625} height={350} className='bg-white rounded'>
+        <div className='absolute top-0'>
+        <PieChart width={625} height={350} className='bg-white rounded absolute'>
         <Pie
           data={data}
           cx="50%"
@@ -53,6 +54,7 @@ export default class Example extends PureComponent {
         </Pie>
       </PieChart>
         </div>
+      </div>
       </>
     );
   }

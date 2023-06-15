@@ -98,7 +98,7 @@ const Index = () => {
     
 
   return (    
-    <div className="relative h-screen overflow-y-scroll">
+    <div className="">
         <div className='flex items-center justify-end bg-white p-3'>
             <h1 className='mr-auto font-bold text-gray-600 text-xl uppercase'>Categories</h1>
             {/* Here is searchbar */}

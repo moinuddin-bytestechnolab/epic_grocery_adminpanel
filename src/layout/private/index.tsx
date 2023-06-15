@@ -26,10 +26,12 @@ const Index = () => {
             <div className="flex-1 grid">
             {/* Dashboard topbar */}
                 <TopBar />
-            <div className="m-3">
+            <div className="m-3 h-screen overflow-scroll">
             {/* Dashboard content here */}
               <Suspense fallback={<Loader/>}>
+                <div className="mb-12">
                 {<Outlet/>}
+                </div>
               </Suspense>
             </div>
             </div>

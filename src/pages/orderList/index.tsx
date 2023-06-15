@@ -8,7 +8,7 @@ import Pagination from '../../components/pagination';
 const Index = () => {    
     
   return (    
-    <div className="relative h-screen overflow-scroll">
+    <div className="">
         <div className='flex items-center justify-end bg-white p-3'>
             <h1 className='mr-auto font-bold text-gray-600 text-xl uppercase'>Orders</h1>
             {/* Here is searchbar */}
@@ -143,7 +143,7 @@ const Index = () => {
                 </tr>
                 <tr className='bg-white border-b text-center font-bold uppercase'>
                     <td colSpan={10} className='px-6 py-4'>
-                        <span>Data not found</span>
+                        <span>Order's not found</span>
                     </td>
                 </tr>
             </tbody>

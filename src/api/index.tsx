@@ -32,6 +32,7 @@ export const getUsers = async () => {
 // ====================================
 // ---------- Categories API ----------
 // ====================================
+
 export const addCategories = async (addCategory : any) => {
     try {
         const res = await axios.post(`${API_PORT}categories/create`,addCategory,{headers : AuthHeader()});
@@ -124,3 +125,35 @@ export const updateProduct = async (id : any, updateProducts : any) => {
         console.log(`Product not updated ${error}`);
     }
 }
+
+// =====================================
+// ------------ Offer's API ------------
+// =====================================
+
+export const getOffers = async () => {
+    try {
+        const res = await axios.get(`${API_PORT}offers`,{headers : AuthHeader()})
+        return res;
+    } catch (error) {
+        console.log(`Offer's not fetch ${error}`)
+    }
+}
+
+export const addOffers = async (offersData : any) => {
+    try {
+        const res = await axios.post(`${API_PORT}offers/create`,offersData,{headers : AuthHeader()})
+        return res;
+    } catch (error) {
+        console.log(`Offers not added ${error}`);
+    }
+}
+
+export const findProductByCategoryId = async (categoryId : any) => {
+    try {
+        const res = await axios.get(`${API_PORT}products/findproducts/${categoryId}`,{headers : AuthHeader()})
+        return res;
+    } catch (error) {
+        console.log(`Product not found ${error}`);
+    }
+}
+
